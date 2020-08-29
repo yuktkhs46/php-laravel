@@ -1,4 +1,4 @@
-{{-- layouts/admin.blade.phpを読み込む --}}
+{{-- layouts/admin.blade.phpを読み込む　つまり親bladeビューを読み込むということ　--}}
 @extends('layouts.profile')
 
 
@@ -6,7 +6,7 @@
 @section('title', 'プロフィールの新規作成')
 
 {{-- profile.blade.phpの@yield('content')に以下のタグを埋め込む --}}
-@section('content')
+@section('content') <!--この下に書いてある記述を@yield('content')のcontentにブチ込む-->
     <div class="container">
         <div class="row">
             <div class="col-md-8 mx-auto">
@@ -43,7 +43,7 @@
                     <div class="form-group row">
                         <label class="col-md-2">自己紹介</label>
                         <div class="col-md-10">
-                            <textarea class="form-control" name="body" rows="20">{{ old('body') }}</textarea>
+                            <textarea class="form-control" name="introduction" rows="20">{{ old('body') }}</textarea>
                         </div>
                     </div>
                     {{ csrf_field() }}
