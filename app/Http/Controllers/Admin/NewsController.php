@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use app\News;//Newsモデルがつかえるようになった
+use App\News;
+//Newsモデルがつかえるようになった
 
 class NewsController extends Controller
 {
@@ -16,7 +17,9 @@ class NewsController extends Controller
   
    public function create(Request $request)
   {    
-      $this->validate($request,News::$rules);//バリデーションを行う
+      $this->validate($request,News::$rules);
+      
+      //バリデーションを行う
       //News::$rules = Newsモデル内の$rulesメソッドでバリデ
       $news = new News;
       $form = $request->all();
