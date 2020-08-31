@@ -21,27 +21,55 @@ public function create(Request $request)
       
       //バリデーションを行う
       //Profile::$rules = Profileモデル内の$rulesメソッドでバリデ
-      $news = new Profile;
+      $profile = new Profile;
       $form = $request->all();
       
       unset($form['_token']);
-      unset($form['image']);
       
-      $news->fill($form);
-      $news->save();
+      
+      $profile->fill($form);
+      $profile->save();
       
   
       // admin/profile/createにリダイレクトする
       return redirect('admin/profile/create');
   }  
 
-public function edit()
+
+public function edit(Request $request)
 {
-    return ('admin.profile.edit');
+      
+      $profile = Profile::find($request->id);
+
+      if (empty($profile)) {
+        abort(404);    
+      }
+    return view('admin.profile.edit', ['profile_form' => $profile]);
 }
-public function update()
+public function update(Request $request)
 {
-    return ('admin.profile.update');    
+      // Validationをかける
+      $this->validate($request, Profile::$rules);
+      // Profile Modelからデータを取得する
+      $profile = Profile::find($request->id);
+      // 送信されてきたフォームデータを格納する
+      $profile_form = $request->all();
+      if(isset($form['image'])){
+          $path = $request->fie('image')->store('public/image');
+          $news->inage_path = basename($path);
+      }
+      else
+      {
+          $news->image_path = null;
+      }
+      
+      unset($profile_form['_token']);
+      
+
+      // 該当するデータを上書きして保存する
+      $profile->fill($profile_form)->save();
+
+      return redirect('admin/profile');    
 }
     
     

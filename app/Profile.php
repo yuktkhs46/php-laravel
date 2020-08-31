@@ -15,3 +15,4 @@ class Profile extends Model
         'introduction' => 'required',
     );
 }
+?>
