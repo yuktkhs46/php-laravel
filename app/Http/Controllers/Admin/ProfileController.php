@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Profile;
+use App\History;
+//Historyモデルが使えるようになった
+use Carbon\Carbon;
 
 class ProfileController extends Controller
 {
@@ -54,23 +57,30 @@ public function update(Request $request)
       $profile = Profile::find($request->id);
       // 送信されてきたフォームデータを格納する
       $profile_form = $request->all();
-      if(isset($form['image'])){
-          $path = $request->fie('image')->store('public/image');
-          $news->inage_path = basename($path);
-      }
-      else
-      {
-          $news->image_path = null;
-      }
+      
       
       unset($profile_form['_token']);
       
 
       // 該当するデータを上書きして保存する
       $profile->fill($profile_form)->save();
+      
+       $history = new History;
+        $history->profile_id = $profile->id;
+        $history->edited_at = Carbon::now();
+        $history->save();
+
 
       return redirect('admin/profile');    
 }
+
+public function delete(Request $request)
+    {
+
+        $profile = Profile::find($request->id);
+        $profile->delete();
+        return redirect('admin/profile/');
+    }
     
     
 }

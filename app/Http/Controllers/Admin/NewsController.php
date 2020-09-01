@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\News;
 //Newsモデルがつかえるようになった
+use App\History;
+//Historyモデルが使えるようになった
+use Carbon\Carbon;
 
 class NewsController extends Controller
 {
@@ -15,6 +18,7 @@ class NewsController extends Controller
       return view('admin.news.create');
   }
   
+  //データベースへの保存
    public function create(Request $request)
   {    
       $this->validate($request,News::$rules);
@@ -93,6 +97,11 @@ class NewsController extends Controller
 
       // 該当するデータを上書きして保存する
       $news->fill($news_form)->save();
+      //News Modelを保存するタイミングで、同時に History Modelにも編集履歴を追加するよう実装
+        $history = new History;
+        $history->news_id = $news->id;
+        $history->edited_at = Carbon::now();//日付操作ライブラリ　Carbonで現在時刻を取得
+        $history->save();
 
       return redirect('admin/news');
   }
