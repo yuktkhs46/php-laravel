@@ -34,8 +34,8 @@ public function create(Request $request)
       $profile->save();
       
   
-      // admin/profile/createにリダイレクトする
-      return redirect('admin/profile/create',['profile_form' => $profile]);
+     
+      return redirect('admin/profile');
   }  
 
 //index
